@@ -23,6 +23,19 @@ try {
     );
 
     $createDeploy->execute();
+    echo "deploy control is made \n";
+
+    $createDNS = $db->prepare("CREATE TABLE IF NOT EXISTS `deployDNS`(
+        `dnsTag` int auto_increment, 
+        `hostname` varchar (50), 
+        `ipaddress` varchar (20) unique,
+        PRIMARY KEY (`dnsTag`)
+        );"
+    );
+
+    $createDNS->execute();
+    echo "fake DNS server is created \n";
+
 
 
 
@@ -31,7 +44,7 @@ try {
 } catch (Exception $e) {
     echo " ERROR --> ";
     echo $e->getMessage();
-    echo " unable to make deploy table";
+    echo " unable to make deploy tables";
 }
 
 ?>
