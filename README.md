@@ -16,13 +16,4 @@ Install the PHP dependencies using [Composer](https://getcomposer.org/).
 composer install
 ```
 
-Create an initialization file `rabbitmq.ini` which contains your RabbitMQ credentials. For example:
-
-```ini
-[rabbitmq]
-host = "localhost"
-port = 5672
-user = "guest"
-password = "guest"
-vhost = "/"
-```
+Run `configure.sh` to automatically configure RabbitMQ. This script will create a new user and virtual host for the deployment server. You must choose a username and password for this user.
