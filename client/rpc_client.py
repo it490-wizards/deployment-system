@@ -1,14 +1,26 @@
-#!/usr/bin/env python3
-
 import json
+import os
 import uuid
 
+import dotenv
 import pika
 
+dotenv.load_dotenv()
 
-class RpcClient:
+
+class Client:
     def __init__(self):
-        self.connection = pika.BlockingConnection()
+        self.connection = pika.BlockingConnection(
+            pika.ConnectionParameters(
+                host=os.getenv("PIKA_HOST"),
+                port=5672,
+                virtual_host="deployment",
+                credentials=pika.PlainCredentials(
+                    username=os.getenv("PIKA_USERNAME"),
+                    password=os.getenv("PIKA_PASSWORD"),
+                ),
+            )
+        )
 
         self.channel = self.connection.channel()
 
