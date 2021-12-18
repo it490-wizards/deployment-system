@@ -1,6 +1,7 @@
 import json
 import os
 import uuid
+from typing import Any
 
 import dotenv
 import pika
@@ -40,7 +41,7 @@ class Client:
         if self.corr_id == props.correlation_id:
             self.response = body.decode()
 
-    def call(self, func: str, *args) -> str:
+    def call(self, func: str, *args: Any) -> Any:
         request = json.dumps({"func": func, "args": args})
         self.response = None
         self.corr_id = str(uuid.uuid4())
