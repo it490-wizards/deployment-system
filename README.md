@@ -8,6 +8,14 @@ Install the Python dependencies using [pip](https://pip.pypa.io/en/stable/).
 python3 -m pip install -r requirements.txt
 ```
 
+Create a file `.env` which contains the RabbitMQ credentials for the deployment server.
+
+```sh
+PIKA_HOST="localhost"
+PIKA_USERNAME="username"
+PIKA_PASSWORD="password"
+```
+
 ## Server Installation
 
 Install the PHP dependencies using [Composer](https://getcomposer.org/).
