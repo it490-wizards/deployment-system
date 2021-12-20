@@ -2,11 +2,12 @@
 <?php
 
 require_once __DIR__ . "/vendor/autoload.php";
+require_once __DIR__ . "/include/version_control.php";
 
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 use PhpAmqpLib\Message\AMQPMessage;
 
-$ini = parse_ini_file(__DIR__ . "/rabbitmq.ini");
+$ini = parse_ini_file(__DIR__ . "/config.ini");
 
 if ($ini)
     [
@@ -24,11 +25,15 @@ $channel = $connection->channel();
 
 $channel->queue_declare("rpc_queue", false, false, false, false);
 
-echo " [x] Awaiting RPC requests", PHP_EOL;
+echo "Awaiting RPC requests", PHP_EOL;
 $callback = function ($req) {
     echo $req->body, PHP_EOL;
     $req_obj = json_decode($req->body);
-    $ret = call_user_func_array($req_obj->func, $req_obj->args);
+    try {
+        $ret = call_user_func_array($req_obj->func, $req_obj->args);
+    } catch (Throwable $th) {
+        $ret = null;
+    }
 
     $msg = new AMQPMessage(
         json_encode($ret),
