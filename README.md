@@ -16,4 +16,4 @@ Install the PHP dependencies using [Composer](https://getcomposer.org/).
 composer install
 ```
 
-Run `configure.sh` to automatically configure RabbitMQ. This script will create a new user and virtual host for the deployment server. You must choose a username and password for this user.
+Run [`configure.sh`](server/configure.sh) to automatically configure RabbitMQ and MySQL. You will be prompted to choose a username and password. The configuration will be written to `config.ini`.
