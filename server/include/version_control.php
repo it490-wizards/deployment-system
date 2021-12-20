@@ -1,16 +1,30 @@
 <?php
 
-function deploy($src, $dst, $filenames)
+function deploy($src, $dst, $add, $rm)
 {
     $src_session = ssh2_connect($src);
+    $dst_session = ssh2_connect($dst);
 
     // TODO: get ssh credentials from somewhere
-    if (ssh2_auth_password($src_session, "username", "password")) {
+    if (
+        ssh2_auth_password($src_session, "username", "password") &&
+        ssh2_auth_password($dst_session, "username", "password")
+    ) {
         $src_sftp = ssh2_sftp($src_session);
+        $dst_sftp = ssh2_sftp($dst_session);
 
-        foreach ($filenames as $f) {
-            $src_filename = "ssh2.sftp://" . intval($src_sftp) . $f;
-            echo fread(fopen($src_filename, "r"), filesize($src_filename));
+        foreach ($add as $f) {
+            $src_fn = "ssh2.sftp://" . intval($src_sftp) . $f;
+            $dst_fn = "ssh2.sftp://" . intval($dst_sftp) . $f;
+
+            fwrite(
+                fopen($dst_fn, "w"),
+                fread(fopen($src_fn, "r"), filesize($src_fn))
+            );
+        }
+
+        foreach ($rm as $f) {
+            ssh2_sftp_unlink($dst_sftp, $f);
         }
 
         return true;
