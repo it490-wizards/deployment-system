@@ -7,8 +7,8 @@ function deploy($src, $dst, $add, $rm)
 
     // TODO: get ssh credentials from somewhere
     if (
-        ssh2_auth_password($src_session, "username", "password") &&
-        ssh2_auth_password($dst_session, "username", "password")
+        $src_session && ssh2_auth_password($src_session, "username", "password") &&
+        $dst_session && ssh2_auth_password($dst_session, "password", "password")
     ) {
         $src_sftp = ssh2_sftp($src_session);
         $dst_sftp = ssh2_sftp($dst_session);
