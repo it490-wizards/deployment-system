@@ -1,5 +1,7 @@
 # deployment-system
 
+This repository exists for the sole purpose of meeting a final presentation deliverable of creating a deployment system from scratch. Under normal conditions, I would **never** create or use something this bad; `git` would be a far more appropriate tool for deployment.
+
 ## Client Installation
 
 Install the Python dependencies using [pip](https://pip.pypa.io/en/stable/).
